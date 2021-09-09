@@ -1,0 +1,42 @@
+{
+  "name": "api.aloux.plataforma",
+  "version": "0.0.1",
+  "description": "Proyecto plataforma",
+  "main": "index.js",
+  "scripts": {
+    "start": "env-cmd -f ./.env nodemon server.js"
+  },
+  "author": "Alberto",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alberto-aloux/api.aloux.plataforma"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/bigquery": "^5.5.0",
+    "@google-cloud/storage": "^5.7.0",
+    "aws-sdk": "^2.817.0",
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "~1.19.0",
+    "express": "~4.17.1",
+    "express-fileupload": "^1.2.1",
+    "jimp": "^0.16.1",
+    "json-2-csv": "^3.10.0",
+    "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
+    "moment": "^2.29.1",
+    "mongo-sanitize": "^1.1.0",
+    "mongodb": "~3.5.2",
+    "mongoose": "^5.7.5",
+    "node-fetch": "^2.6.1",
+    "node-schedule": "^1.3.2"
+  },
+  "devDependencies": {
+    "env-cmd": "^9.0.3",
+    "nodemon": "^1.19.1"
+  },
+  "engines": {
+    "node": "12.16.0"
+  }
+}
