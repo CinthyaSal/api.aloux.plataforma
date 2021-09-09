@@ -24,6 +24,6 @@ app.use('/exported-images', express.static('static'))
 
 app.listen( config.port , () => {
     console.log(`\n - - - - - - - - - - - - - - - - - - - - - - - - - - - -`);
-    console.log(` | API REST [api.aloux.platafora] - http://localhost:${ config.port }/v0/ | `);
+    console.log(` | API REST [api.aloux.plataforma] - http://localhost:${ config.port }/v0/ | `);
     console.log(` - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n`);
 })

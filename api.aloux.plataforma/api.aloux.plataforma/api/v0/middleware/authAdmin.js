@@ -2,12 +2,12 @@ const jwt = require('jsonwebtoken')
 const Admin = require('../models/Admin')
 const config = require('../../config')
 
-const auth = async(req, res, next) => {
+const authAdmin = async(req, res, next) => {
     try {
         
         const token = req.header('Authorization').replace('Bearer ', '')
         const data = jwt.verify(token, config.auth.secret)
-        const admin = await Admin.findOne({ _id: data._id, token: token })
+        const admin = await Admin.findOne({ _id: data._id, 'tokens.token': token })
         
         if (!admin) {
             throw new Error()
@@ -21,4 +21,4 @@ const auth = async(req, res, next) => {
     }
 
 }
-module.exports = auth
+module.exports = authAdmin
