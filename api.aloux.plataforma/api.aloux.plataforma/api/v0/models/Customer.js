@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
-const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
 const config = require("../../config")
+const { ObjectId } = require('mongodb')
 
 const CustomerSchema = mongoose.Schema({
 
@@ -12,10 +11,10 @@ const CustomerSchema = mongoose.Schema({
     rfc:{ type: String,  required: true, trim: true, unique: true },
     isActive:       { type: Boolean, default: true },
     businessName: {type: String,  required: true, trim: true},
-    _owner: { type: ObjectId, ref: 'Admin'}, //Revisar?
+    _owner: { type: ObjectId, ref: 'Admin'}, 
     createdAt:      { type: Number,  required: true},
     lastUpdate:     { type: Number,  required: false },
     
 })
-const Customer = mongoose.model('Customer', customerSchema)
+const Customer = mongoose.model('Customer', CustomerSchema)
 module.exports = Customer
