@@ -20,6 +20,7 @@ router.put('/v0/admin/profile/picture',     authAdmin, admin.updatePicture)
 router.put('/v0/admin/status/:id',          authAdmin, admin.status)
 router.delete('/v0/admin/delete/:id',       authAdmin, admin.delAdmin)
 
+<<<<<<< Updated upstream
 //Article
 router.post('/v0/admin/article',            authAdmin, article.create)
 router.get('/v0/admin/list/article',        authAdmin, article.retrieve)
@@ -27,6 +28,16 @@ router.get('/v0/admin/article/:id',         authAdmin, article.detail)
 router.put('/v0/admin/article/picture/:id', authAdmin, article.updatePicture)
 router.put('/v0/admin/article/:id',         authAdmin, article.updateAny)
 router.delete('/v0/admin/article/:id',      authAdmin, article.delArticle)
+=======
+//Customer
+router.post('/v0/customer', authAdmin, customer.create);
+router.put('/v0/customer/edit', authAdmin, customer.edit);
+router.put('/v0/customer/change/state', authAdmin, customer.change.state);// verificar
+router.delete('/v0/customer/delete/:id', authAdmin, customer.delete);
+router.put('/v0/customer/asignProyect', authAdmin, customer.asignProyect);
+router.get('/v0/customer/proyectList', authAdmin, customer.proyectList);
+router.put('/v0/customer/change/:id', authAdmin, customer.change.logo);
+>>>>>>> Stashed changes
 
 //Worker
 router.post('/v0/admin/worker',             authAdmin, worker.create)
