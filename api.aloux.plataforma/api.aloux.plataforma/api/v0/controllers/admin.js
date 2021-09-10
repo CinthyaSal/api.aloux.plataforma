@@ -108,7 +108,7 @@ self.updateAny = async( req, res) =>{
     try {
         const { email, name , phone } = req.body
         const _id = req.admin._id
-        const update = await Admin.updateOne( { _id },{ $set:req.body, lastUpdate: (new Date()).getTime() })
+        const update = await Admin.updateOne( { _id },{ $set:{ email, name , phone }, lastUpdate: (new Date()).getTime() })
         
         res.status(202).send(update)
     } catch (error) {
