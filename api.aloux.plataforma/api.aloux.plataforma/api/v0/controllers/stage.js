@@ -42,7 +42,6 @@ self.status  =  async(req, res) => {
     }
 }
 
-
 self.retrieve = async(req, res) => {    
     try {
 
@@ -51,5 +50,31 @@ self.retrieve = async(req, res) => {
         res.status(200).send(retrieve)
     } catch (error) {
         res.status(404).send({error:error.message})
+    }
+}
+
+self.detail = async(req, res) => {    
+    try {
+        const _id = req.params.id
+        const detail = await Stage.findOne({_id})
+
+        if(!detail)
+            throw new Error('Upss! No se encontró el Elemento')
+        
+        res.status(200).send(detail)
+    } catch (error) {
+        res.status(400).send({error:error.message})
+    }
+}
+
+self.delStage = async(req, res) => {    
+    
+    try {
+        const _id = req.params.id
+        const del = await Stage.findByIdAndRemove({ _id })
+        
+        res.status(200).send(del)
+    } catch (error) {
+        res.status(400).send({error:error.message})
     }
 }
