@@ -21,6 +21,11 @@ router.put('/v0/admin/:id',                 authAdmin, admin.updateAny)
 router.put('/v0/admin/profile/picture',     authAdmin, admin.updatePicture)
 router.put('/v0/admin/status/:id',          authAdmin, admin.status)
 router.delete('/v0/admin/delete/:id',       authAdmin, admin.delAdmin)
+router.post('/v0/admin/send/code',          admin.recoverpassword)
+router.post('/v0/admin/validate/code',      admin.verifyCode)
+router.post('/v0/admin/reset/password',     admin.resetPassword)
+router.put('/v0/admin/reset/password',      authAdmin, admin.updatePass)
+
 
 //Article
 router.post('/v0/admin/article',            authAdmin, article.create)

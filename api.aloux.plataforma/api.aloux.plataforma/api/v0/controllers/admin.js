@@ -189,3 +189,181 @@ self.delAdmin = async(req, res) => {
 }
 
 
+self.generatecode = async () => {
+    let code = "";
+    let random = [];
+
+    function getRandomArbitrary(min, max) {
+        return Math.floor(Math.random() * (max - min) + min)
+    }
+    function isReapeat(arr, value) {
+        for(let i in arr){
+            if(arr[i].nivel === value){
+                return true
+            }
+        }
+        return false
+    }
+
+    function getRandom(){
+        const nivel = getRandomArbitrary(0,10);
+        if(!isReapeat(random, nivel)){
+            random.push({ nivel : nivel });
+        }
+        if(random.length < 4){
+            getRandom()
+        }
+    }
+
+    getRandom()
+
+    for(let i in random){
+        code += random[i].nivel;
+    }
+
+    return code;
+}
+
+self.recoverpassword = async (req, res) => {
+    try {
+        const correo = req.body.email
+        var body = JSON.parse(JSON.stringify(req.body));
+
+        const user = await Admin.findOne({email: correo});
+        if (!user) {
+            return res.status(409).send({error: 'User no encontrado.'});
+        }
+
+        const code = await self.generatecode();
+        
+        const sendcode = await self.sendcodemail(correo, code);
+        
+        user.resetCode = code;
+
+        await user.save();
+
+        res.status(200).send();
+    } catch (error) {
+        res.status(500).send('Error al envíar el correo electronico')
+        console.log(error)
+    }
+}
+
+self.sendcodemail = async( correo, code) =>{
+    try {
+        statusCode = 200;
+
+        var postData = {
+            subscriber: correo,
+            form: [
+                { key:"Codigo", val: code }
+            ],
+            title: "Código"
+        };
+
+        
+        let axiosConfig = {
+            headers: {
+                'Authorization': config.email.token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8',
+                "Access-Control-Allow-Origin": "*",
+            }
+        };
+        
+        let resp = await axios.post(config.email.api, postData, axiosConfig);
+
+        if(resp.status === 201){
+            return 'ok';
+        }
+        else{  
+            statusCode = 500;
+            throw new Error('Ocurrio un error al envìar el correo electronico')
+        }        
+    } catch (error) {
+        throw new Error('Ocurrio un error al envìar el correo electronico');
+    }
+}
+
+
+self.verifyCode = async (req, res) => {
+    try {
+        const correo = req.body.email
+        var body = JSON.parse(JSON.stringify(req.body));
+
+        const user = await Admin.findOne({ email: correo } );
+
+        if (!user) {
+            return res.status(409).send({error: 'No se pudo validar la información.'});
+        }
+
+        if(user.resetCode == null)
+            return res.status(409).send({error: 'El código ha caducado.'});
+
+        if(user.resetCode == body.resetCode)
+        {
+            user.resetCode = null;
+            user.codeVerified = true;
+
+            await user.save();
+        }
+        else 
+            return res.status(409).send('Código incorrecto.');
+
+
+        res.status(200).send();
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
+self.resetPassword  =  async(req, res) => {    
+    try {
+        let correo = req.body.email;
+        var body = JSON.parse(JSON.stringify(req.body));
+
+        const usuario = await Admin.findOne({ email: correo } )
+
+        if (!usuario) {
+            return res.status(409).send({error: 'User no encontrado.'})
+        }
+
+        if(usuario.codeVerified)
+        {
+            usuario.pwd = body.pwd;
+            usuario.codeVerified = false;
+            usuario.lastUpdate = new Date().getTime();
+            usuario.tokens = []
+
+            await usuario.save()
+
+            const token = await usuario.generateAuthToken()
+            res.status(200).send({token})
+        }
+        else{
+            return res.status(401).send("El codigo no ha sido verificado");
+        }
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
+self.updatePass  =  async(req, res) => {
+    try {       
+
+        const usuario = await Admin.findOne({_id: req.admin._id} )
+        
+        if (usuario) {
+           
+            usuario.pwd = req.body.pwd            
+            usuario.lastUpdate = new Date().getTime();                        
+            await usuario.save()
+            
+            res.status(200).send("password updated successfully");  
+        } else return res.status(409).send({error: 'Usuario no encontrado.'})     
+     
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
