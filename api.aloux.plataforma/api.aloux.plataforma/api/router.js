@@ -9,6 +9,7 @@ const article  = require('./v0/controllers/article.js')
 const worker   = require('./v0/controllers/worker.js')
 const stage    = require('./v0/controllers/stage.js')
 const customer = require('./v0/controllers/customer.js')
+const project = require('./v0/controllers/project.js')
 
 // Admin
 router.post('/v0/admin/signup',             admin.signup)
@@ -59,6 +60,15 @@ router.get('/v0/admin/list/stage',          authAdmin, stage.retrieve)
 router.get('/v0/admin/stage/:id',           authAdmin, stage.detail)
 router.put('/v0/admin/stage/status/:id',    authAdmin, stage.status)
 router.delete('/v0/admin/stage/:id',        authAdmin, stage.delStage)
+
+//Project
+router.post('/v0/project/new',              authAdmin, project.create)
+//router.put('/v0/project/update',          authAdmin, project.update)
+router.get('/v0/project/:id',             authAdmin, project.detailOne)
+//router.get('/v0/project/all',             authAdmin, project.detailAll)
+//router.delete('/v0/project/remove/:id',   authAdmin, project.remove)
+
+
 
 // Usuario
 module.exports = router
