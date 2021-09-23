@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const config = require("../../config")
+const { ObjectId } = require('mongodb')
 
 const StageSchema = mongoose.Schema({
     name:               { type: String,  required: true, trim: true },
@@ -7,7 +8,7 @@ const StageSchema = mongoose.Schema({
     startDate:          { type: Number,  required: true },
     endDate:            { type: Number,  required: true },
     current:            { type: Boolean, default: true },
-    //_proyecto:          { type: ObjectId , ref: 'Proyect'},
+    _project:           { type: ObjectId , ref: 'Project'},
     lastUpdate:         { type: Number, required: false }
 })
 

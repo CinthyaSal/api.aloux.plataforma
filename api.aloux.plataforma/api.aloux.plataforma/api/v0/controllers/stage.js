@@ -7,7 +7,8 @@ self.create = async (req, res) => {
         const { name, comments, startDate, endDate } = req.body
 
         const stage = new Stage({ name, comments, startDate, endDate })        
-        stage.lastUpdate = (new Date()).getTime()
+        stage.lastUpdate = (new Date()).getTime()        
+        stage._project = req.params.id_project
         const result = await stage.save()
 
         res.status(201).send(result)
@@ -37,6 +38,25 @@ self.status  =  async(req, res) => {
         const result = await stage.save()
         
         res.status(202).send(result)
+    } catch (error) {
+        res.status(400).send({error:error.message})
+    }
+}
+
+self.updateAny = async( req, res) =>{
+    try {
+        const { name, comments , startDate, endDate } = req.body
+
+        const _id = req.params.id
+
+            let stage = await Stage.findOne({_id})
+
+            if(!stage)
+             throw new Error('Upss! No se encontró el Elemento')        
+             
+        const update = await Stage.updateOne( { _id },{ $set:{ name, comments , startDate, endDate }, lastUpdate: (new Date()).getTime() })
+        
+        res.status(202).send(update)
     } catch (error) {
         res.status(400).send({error:error.message})
     }

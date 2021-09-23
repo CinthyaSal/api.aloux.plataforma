@@ -55,10 +55,11 @@ router.put('/v0/admin/worker/picture/:id',  authAdmin, worker.updatePicture)
 router.delete('/v0/admin/worker/:id',       authAdmin, worker.delWorker)
 
 //Stage
-router.post('/v0/admin/stage',              authAdmin, stage.create)
+router.post('/v0/admin/:id_project/stage',  authAdmin, stage.create)
 router.get('/v0/admin/list/stage',          authAdmin, stage.retrieve)
 router.get('/v0/admin/stage/:id',           authAdmin, stage.detail)
 router.put('/v0/admin/stage/status/:id',    authAdmin, stage.status)
+router.put('/v0/admin/stage/:id',           authAdmin, stage.updateAny)
 router.delete('/v0/admin/stage/:id',        authAdmin, stage.delStage)
 
 //Project
