@@ -9,7 +9,8 @@ const article  = require('./v0/controllers/article.js')
 const worker   = require('./v0/controllers/worker.js')
 const stage    = require('./v0/controllers/stage.js')
 const customer = require('./v0/controllers/customer.js')
-const project = require('./v0/controllers/project.js')
+const project  = require('./v0/controllers/project.js')
+const postbox  = require('./v0/controllers/postbox.js')
 
 // Admin
 router.post('/v0/admin/signup',             admin.signup)
@@ -26,6 +27,10 @@ router.post('/v0/admin/send/code',          admin.recoverpassword)
 router.post('/v0/admin/validate/code',      admin.verifyCode)
 router.post('/v0/admin/reset/password',     admin.resetPassword)
 router.put('/v0/admin/reset/password',      authAdmin, admin.updatePass)
+        //PostBox
+router.get('/admin/postbox',                authAdmin,postbox.retrieve)
+router.put('/admin/postbox/:id',            authAdmin,postbox.updateAny)
+router.delete('/admin/postbox/:id',         authAdmin,postbox.delete)
 
 
 //Article
@@ -68,6 +73,10 @@ router.post('/v0/project/new',              authAdmin, project.create)
 router.get('/v0/project/:id',             authAdmin, project.detailOne)
 //router.get('/v0/project/all',             authAdmin, project.detailAll)
 //router.delete('/v0/project/remove/:id',   authAdmin, project.remove)
+
+
+//Postbox
+router.post('/public/postbox',              postbox.create)
 
 
 
