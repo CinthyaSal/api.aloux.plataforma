@@ -114,16 +114,16 @@ self.delArticle = async(req, res) => {
 
 self.updateAny = async( req, res) =>{
     try {
-        const { title, category , textContent , publicationDate } = req.body
-
         const _id = req.params.id
 
             let article = await Article.findOne({_id})
 
             if(!article)
-             throw new Error('Upss! No se encontró el Elemento')        
+             throw new Error('Upss! No se encontró el Elemento')    
              
-        const update = await Article.updateOne( { _id },{ $set:{ title, category , textContent , publicationDate }, lastUpdate: (new Date()).getTime() })
+        req.body.lastUpdate = (new Date()).getTime()
+             
+        const update = await Article.updateOne( { _id },{ $set:req.body })
         
         res.status(202).send(update)
     } catch (error) {
