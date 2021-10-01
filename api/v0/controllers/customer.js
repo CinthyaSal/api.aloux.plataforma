@@ -123,7 +123,43 @@ self.delete = async(req, res) => {
     }
 }
 //asignar proyecto
+self.asignProyect  =  async(req, res) => {    
+    
+    try {
+        const id = req.admin._id
+        const proyecto = req.params.id.toString()
+        const update = await Customer.findOne( {_owner:id})
+        if (update) {
+            const buscar = update.proyectos.find(obj=>obj._proyect.toString()===proyecto)
+            if(buscar){
+                throw new Error('Proyecto Existente')
+            }else{
+                update.proyectos.push({_product : proyecto})
+            }            
+        }
+       
+        await update.save()
+
+        res.status(200).send(update)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
+
 //Listar proyectos
+self.proyectList  =  async(req, res) => {    
+    
+    try {
+        const id = req.admin._id
+        let customer = await Customer.findOne({_owner:id},{createdAt:0, lastUpdate:0, _owner:0, __v:0}).populate('proyectos._proyect')
+        
+        res.status(200).send(customer)
+    } catch (error) {
+    res.status(404).send(error.message);
+    }
+}
+
 
 self.updateLogo = async( req, res) =>{
     try {

@@ -55,3 +55,50 @@ self.deletePayments = async(req, res) => {
     }
 }
 
+//asignar pago
+self.asignPayment  =  async(req, res) => {    
+    
+    try {
+        const id = req.admin._id
+        const project = req.params.id.toString()
+        const update = await Project.findOne( {_owner:id})
+        if (update) {
+            const buscar = update.project.find(obj=>obj._payments.toString()===payments)
+            if(buscar){
+                update.project.push({_payments : payments})
+            }else{
+                throw new Error('Proyecto no encontrado') 
+            }            
+        }
+       
+        await update.save()
+
+        res.status(200).send(update)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
+//revertir pago
+self.revert  =  async(req, res) => {    
+    
+    try {
+        const id = req.admin._id
+        const payments = req.params.id.toString()
+        const update = await Project.findOne( {_owner:id})
+        if (update) {
+            const index = update.payments.findIndex(obj=>obj._payments.toString()===payments)
+            if(update){
+                update.project.splice(index, 1)
+            }
+            else{
+                res.status(200).send("Pago no encontrado ")
+            }
+        
+        
+       await update.save()                
+        res.status(200).send(update)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}

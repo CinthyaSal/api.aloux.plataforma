@@ -43,12 +43,20 @@ router.delete('/v0/admin/article/:id',      authAdmin, article.delArticle)
 
 //Customer
 router.post('/v0/customer',                 authAdmin, customer.create);
-//router.put('/v0/customer/edit',             authAdmin, customer.edit);
-//router.put('/v0/customer/change/state',     authAdmin, customer.change.state);// verificar
-//router.delete('/v0/customer/delete/:id',    authAdmin, customer.delete);
-//router.put('/v0/customer/asignProyect',     authAdmin, customer.asignProyect);
-//router.get('/v0/customer/proyectList',      authAdmin, customer.proyectList);
-//router.put('/v0/customer/change/:id',       authAdmin, customer.change.logo);
+router.put('/v0/customer/edit/:id',             authAdmin, customer.edit);
+router.put('/v0/customer/updateState/:id',   authAdmin, customer.updateState);
+router.delete('/v0/customer/delete/:id',    authAdmin, customer.delete);
+router.put('/v0/customer/asignProyect/:id',  authAdmin, customer.asignProyect);
+router.get('/v0/customer/proyectList/:id',   authAdmin, customer.proyectList);
+router.put('/v0/customer/updateLogo/:id',       authAdmin, customer.updateLogo);
+
+//Payments
+router.post('/v0/payments',                 authAdmin, customer.create);
+router.put('/v0/customer/update/:id',       authAdmin, customer.update);
+router.delete('/v0/customer/delete/:id',    authAdmin, customer.delete);
+router.put('/v0/customer/asign/:id',        authAdmin, customer.asign);
+router.put('/v0/customer/paid/:id',         authAdmin, customer.paid);
+router.put('/v0/customer/revert/:id',       authAdmin, customer.revert);
 
 //Worker
 router.post('/v0/admin/worker',             authAdmin, worker.create)

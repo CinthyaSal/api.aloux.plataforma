@@ -12,6 +12,10 @@ const CustomerSchema = mongoose.Schema({
     isActive:       { type: Boolean, default: true },
     businessName: {type: String,  required: true, trim: true},
     _owner: { type: ObjectId, ref: 'Admin'}, 
+    proyectos: [{
+        _proyecto :{type: ObjectId, ref: 'Producto'},
+        name: {type: String, default : "Proyecto Nuevo" }
+      }],
     createdAt:      { type: Number,  required: true},
     lastUpdate:     { type: Number,  required: false },
     
