@@ -31,10 +31,11 @@ self.updatePayments = async( req, res) =>{
 
             let payments = await Payments.findOne({_id})
 
-            if(!payments)
-             throw new Error('Pago no encontrado')        
+            if(!payments){
+             throw new Error('Pago no encontrado')  
+            }      
              
-        const update = await Payments.updateOne( { _id },{ $set:{ name, amount, deadLine, comments })
+        const update = await Payments.updateOne( { _id },{ $set:req.body })
         
         res.status(202).send(update)
     } catch (error) {
@@ -98,6 +99,7 @@ self.revert  =  async(req, res) => {
         
        await update.save()                
         res.status(200).send(update)
+        }
     } catch (error) {
         res.status(400).send(error)
     }
