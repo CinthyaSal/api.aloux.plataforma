@@ -113,6 +113,7 @@ self.updateAny = async( req, res) =>{
         res.status(202).send(update)
     } catch (error) {
         res.status(400).send({error:error.message})
+        
     }
 }
 
