@@ -11,6 +11,7 @@ const stage    = require('./v0/controllers/stage.js')
 const customer = require('./v0/controllers/customer.js')
 const project  = require('./v0/controllers/project.js')
 const postbox  = require('./v0/controllers/postbox.js')
+const training  = require('./v0/controllers/training.js')
 
 // Admin
 router.post('/v0/admin/signup',             admin.signup)
@@ -85,7 +86,8 @@ router.get('/v0/project/:id',             authAdmin, project.detailOne)
 
 //Postbox
 router.post('/public/postbox',              postbox.create)
-
+//Training
+router.post('/public/training',             training.create)
 
 
 // Usuario
