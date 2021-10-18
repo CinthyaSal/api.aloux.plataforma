@@ -70,9 +70,9 @@ router.delete('/v0/admin/stage/:id',        authAdmin, stage.delStage)
 //Project
 router.post('/v0/project/new',              authAdmin, project.create)
 //router.put('/v0/project/update',          authAdmin, project.update)
-router.get('/v0/project/:id',             authAdmin, project.detailOne)
-//router.get('/v0/project/all',             authAdmin, project.detailAll)
-//router.delete('/v0/project/remove/:id',   authAdmin, project.remove)
+router.get('/v0/project/:id',               authAdmin, project.detailOne)
+router.get('/v0/project/all',               authAdmin, project.detailAll)
+router.delete('/v0/project/remove/:id',     authAdmin, project.remove)
 
 
 //Postbox

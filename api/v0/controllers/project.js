@@ -13,13 +13,11 @@ self.create = async (req, res) => {
         //Asignar el id del admin a la propiedad _owner
         project._owner = req.admin._id
         proj = await project.save()
-        //console.log(proj)
 
         res.status(201).send("successfully created")
     } catch (error) {
         res.status(400).send({error:error.message})
     }
-
 }
 
 self.detailOne = async(req, res) => {    
@@ -34,6 +32,27 @@ self.detailOne = async(req, res) => {
     }
 }
 
-self.detail = async(req, res) => {    
+self.detailAll = async(req, res) => {    
+    try {
+        const detail = await Project.find({})
+        
+        res.status(200).send(detail)
+    } catch (error) {
+        res.status(404).send({error:error.message})
+    }
+}
 
+self.remove = async(req, res) => {    
+    
+    try {
+        const _id = req.params.id
+        const delproject = await Project.findByIdAndRemove({ _id })
+        
+        if(!delproject)
+            throw new Error('Elemento no encontrado')
+
+        res.status(200).send(delproject)
+    } catch (error) {
+        res.status(400).send({error:error.message})
+    }
 }
