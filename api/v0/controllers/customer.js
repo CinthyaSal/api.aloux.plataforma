@@ -44,7 +44,6 @@ self.create = async (req, res) => {
 
 self.update = async( req, res) =>{
     try {
-        const { name, telephone , email, rfc, businessName } = req.body 
 
         const _id = req.params.id
 
@@ -52,8 +51,10 @@ self.update = async( req, res) =>{
 
             if(!customer)
              throw new Error('Cliente no encontrado')        
+
+        req.body.lastUpdate = (new Date()).getTime()
              
-        const update = await Customer.updateOne( { _id },{ $set:{ name, telephone , email, rfc, businessName }, lastUpdate: (new Date()).getTime() })
+        const update = await Customer.updateOne( { _id },{ $set: req.body })
         
         res.status(202).send(update)
     } catch (error) {
