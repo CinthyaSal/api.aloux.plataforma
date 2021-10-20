@@ -21,7 +21,7 @@ self.create = async (req, res) => {
             const extencionIO = req.files.cv.name.split(".");
             const params = {
                 Bucket: Config.aws.BUCKET_NAME,
-                Key: training.name + '.' + extencionIO[extencionIO.length-1],
+                Key: training.createdAt + '.' + extencionIO[extencionIO.length-1],
                 Body: req.files.cv.data,
                 ContentType: 'application/' + extencionIO[extencionIO.length-1],
                 ContentEncoding: 'base64',
@@ -33,7 +33,6 @@ self.create = async (req, res) => {
 
             training.urlCv = putObjectPromise.Location
         }
-        console.log(training.urlCv)
 
         await training.save()
         
