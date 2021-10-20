@@ -1,18 +1,17 @@
-const Project = require('../models/Project')
+const Hour = require('../models/Hour')
 const config = require('../../config')
 const self = module.exports;
 
 
 self.create = async (req, res) => {
-    // Create a new Project
+    // Create a new Hour
     try {
-        let project = new Project(req.body)
+        let hour = new Hour(req.body)
 
-        project.createdAt = (new Date()).getTime()
-        project.lastUpdate = (new Date()).getTime()
-        //Asignar el id del admin a la propiedad _owner
-        project._owner = req.admin._id
-        await project.save()
+        hour.createdAt = (new Date()).getTime()
+        hour.lastUpdate = (new Date()).getTime()
+
+        await hour.save()
 
         res.status(201).send("successfully created")
     } catch (error) {
@@ -23,7 +22,7 @@ self.create = async (req, res) => {
 self.detailOne = async(req, res) => {    
     try {
         const _id = req.params.id
-        const detail = await Project.findOne({_id})
+        const detail = await Hour.findOne({_id})
         if(!detail)
             throw new Error('Elemento no encontrado, revise sus datos')
         res.status(200).send(detail)
@@ -34,7 +33,7 @@ self.detailOne = async(req, res) => {
 
 self.detailAll = async(req, res) => {    
     try {
-        const detail = await Project.find({})
+        const detail = await Hour.find({})
         
         res.status(200).send(detail)
     } catch (error) {
@@ -46,14 +45,14 @@ self.update = async( req, res) =>{
     try {
 
         const _id = req.params.id
-        let project = await Project.findOne({_id})
+        let hour = await Hour.findOne({_id})
 
-        if(!project)
-            throw new Error('Proyecto no encontrado')        
+        if(!hour)
+            throw new Error('Hora no encontrado')        
         
         req.body.lastUpdate = (new Date()).getTime()
 
-        const update = await Project.updateOne( { _id },{ $set: req.body })
+        const update = await Hour.updateOne( { _id },{ $set: req.body })
         
         res.status(202).send(update)
     } catch (error) {
@@ -65,12 +64,12 @@ self.remove = async(req, res) => {
     
     try {
         const _id = req.params.id
-        const delproject = await Project.findByIdAndRemove({ _id })
+        const delhour = await Hour.findByIdAndRemove({ _id })
         
-        if(!delproject)
+        if(!delhour)
             throw new Error('Elemento no encontrado')
 
-        res.status(200).send(delproject)
+        res.status(200).send(delhour)
     } catch (error) {
         res.status(400).send({error:error.message})
     }

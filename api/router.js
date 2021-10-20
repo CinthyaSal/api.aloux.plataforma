@@ -10,8 +10,9 @@ const worker   = require('./v0/controllers/worker')
 const stage    = require('./v0/controllers/stage.js')
 const customer = require('./v0/controllers/customer.js')
 const project  = require('./v0/controllers/project.js')
+const hour     = require('./v0/controllers/hour.js')
 const postbox  = require('./v0/controllers/postbox.js')
-const training  = require('./v0/controllers/training.js')
+const training = require('./v0/controllers/training.js')
 
 // Admin
 router.post('/v0/admin/signup',             admin.signup)
@@ -78,10 +79,19 @@ router.delete('/v0/admin/stage/:id',        authAdmin, stage.delStage)
 
 //Project
 router.post('/v0/project/new',              authAdmin, project.create)
-//router.put('/v0/project/update',          authAdmin, project.update)
+router.put('/v0/project/:id',               authAdmin, project.update)
 router.get('/v0/project/:id',               authAdmin, project.detailOne)
 router.get('/v0/project/all',               authAdmin, project.detailAll)
 router.delete('/v0/project/remove/:id',     authAdmin, project.remove)
+
+//Hour
+router.post('/v0/hour/new',                 authAdmin, hour.create)
+//router.put('/v0/hour/paid/:id',           authAdmin, hour.updateStatus)
+//router.put('/v0/hour/edit/:id',           authAdmin, hour.update)
+router.get('/v0/hour/get-hour/:id',         authAdmin, hour.detailOne)
+router.get('/v0/hour/get-hours',            authAdmin, hour.detailAll)
+router.delete('/v0/hour/remove/:id',        authAdmin, hour.remove)
+
 
 
 //Postbox
