@@ -1,14 +1,39 @@
 const Training = require('../models/Training')
 const Config = require('../../config')
+const aws = require('aws-sdk');
 
 const self = module.exports;
 
+aws.config.update({
+    secretAccessKey: Config.aws.secretAccessKey,
+    accessKeyId: Config.aws.accessKeyId,
+    region: Config.aws.region
+});
 
 self.create = async (req, res) => {
 
     try {
+        const s3  = new aws.S3();
         let training = new Training(req.body)
+        training.createdAt = (new Date()).getTime()
+
+        if(req.files.cv){
+            const extencionIO = req.files.cv.name.split(".");
+            const params = {
+                Bucket: Config.aws.BUCKET_NAME,
+                Key: training.createdAt + '.' + extencionIO[extencionIO.length-1],
+                Body: req.files.cv.data,
+                ContentType: 'application/' + extencionIO[extencionIO.length-1],
+                ContentEncoding: 'base64',
+                ACL: 'public-read'
+            };
         
+            // Uploading files to the bucket
+            let putObjectPromise = await s3.upload(params).promise();
+
+            training.urlCv = putObjectPromise.Location
+        }
+
         await training.save()
         
         res.status(201).send(training)
