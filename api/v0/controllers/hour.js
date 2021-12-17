@@ -46,15 +46,36 @@ self.update = async( req, res) =>{
 
         const _id = req.params.id
         let hour = await Hour.findOne({_id})
+        
+        if(!hour)
+            throw new Error('Hora no encontrado')        
+        req.body.lastUpdate = (new Date()).getTime()
 
+        const update = await Hour.updateOne( { _id },{ $set: req.body })
+        console.log(update)
+        res.status(202).send(update)
+    } catch (error) {
+        res.status(400).send({error:error.message})
+    }
+}
+
+
+self.updateStatus = async( req, res) =>{
+    try {
+
+        const _id = req.params.id
+        let hour = await Hour.findOne({_id})
+        
         if(!hour)
             throw new Error('Hora no encontrado')        
         
         req.body.lastUpdate = (new Date()).getTime()
 
-        const update = await Hour.updateOne( { _id },{ $set: req.body })
-        
-        res.status(202).send(update)
+        hour.paidUp = true
+        await hour.save()
+        console.log(hour)
+
+        res.status(202).send(hour)
     } catch (error) {
         res.status(400).send({error:error.message})
     }

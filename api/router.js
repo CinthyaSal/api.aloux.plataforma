@@ -86,8 +86,8 @@ router.delete('/v0/project/remove/:id',     authAdmin, project.remove)
 
 //Hour
 router.post('/v0/hour/new',                 authAdmin, hour.create)
-//router.put('/v0/hour/paid/:id',           authAdmin, hour.updateStatus)
-//router.put('/v0/hour/edit/:id',           authAdmin, hour.update)
+router.put('/v0/hour/paid/:id',             authAdmin, hour.updateStatus)
+router.put('/v0/hour/edit/:id',             authAdmin, hour.update)
 router.get('/v0/hour/get-hour/:id',         authAdmin, hour.detailOne)
 router.get('/v0/hour/get-hours',            authAdmin, hour.detailAll)
 router.delete('/v0/hour/remove/:id',        authAdmin, hour.remove)
